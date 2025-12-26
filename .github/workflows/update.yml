@@ -1,4 +1,4 @@
-name: Daily IMDB Update
+name: Daily imdb Update
 
 on:
   schedule:
