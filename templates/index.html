@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMDb Graph Explorer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div>
+            <span class="logo-box">IMDb</span>
+            <span class="header-title">Graph Explorer</span>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- ============================================= -->
+        <!-- SECTION 1: ACTOR EXPLORER -->
+        <!-- ============================================= -->
+        <div class="card">
+            <h2>Actor Explorer</h2>
+            <p>Search for an actor to see their filmography and network.</p>
+            <form action="/web/actor" method="get">
+                <input type="text" name="search" placeholder="Enter actor name (e.g., Tom Cruise)" value="{{ search_term if mode == 'actor_search_results' else '' }}" required>
+                <button type="submit">Search Actor</button>
+            </form>
+
+            {% if mode == 'actor_search_results' %}
+                <h3>Results</h3>
+                <ul class="list-group">
+                {% for a in candidates %}
+                    <li class="list-item">
+                        <span>
+                            {{ a.name }} 
+                            <span class="badge badge-yellow">{{ a.count }} movies</span>
+                            <span class="badge">ID: {{ a.index }}</span>
+                        </span>
+                        <a href="/web/actor?id={{ a.index }}">View Profile &rarr;</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if mode == 'actor_profile' %}
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>{{ actor.name }}</h3>
+                    <span class="badge">Actor</span>
+                </div>
+                <hr style="border-color:#333; margin: 20px 0;">
+                
+                <div class="columns">
+                    <div class="column">
+                        <h4>Credits ({{ movies|length }})</h4>
+                        <div class="scroll-box">
+                            <ul class="list-group">
+                            {% for m in movies %}
+                                <li class="list-item">
+                                    {{ m.name }} 
+                                    <span style="color:var(--imdb-yellow); font-weight:bold; font-size:0.9rem;">{{ m.year }}</span>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h4>Network ({{ actor.costars|length }})</h4>
+                        <div class="scroll-box">
+                            <ul class="list-group">
+                            {% for c in actor.costars %}
+                                <li class="list-item" style="color:#aaa;">{{ c }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- ============================================= -->
+        <!-- SECTION 2: MOVIE EXPLORER (NEW!) -->
+        <!-- ============================================= -->
+        <div class="card">
+            <h2>Movie Explorer</h2>
+            <p>Search for a movie to see the cast list and release year.</p>
+            <form action="/web/movie" method="get">
+                <input type="text" name="search" placeholder="Enter movie title (e.g., Inception)" value="{{ search_term if mode == 'movie_search_results' else '' }}" required>
+                <button type="submit">Search Movie</button>
+            </form>
+
+            {% if mode == 'movie_search_results' %}
+                <h3>Results</h3>
+                <ul class="list-group">
+                {% for m in candidates %}
+                    <li class="list-item">
+                        <span>{{ m.title }} <span class="badge" style="color: var(--imdb-yellow);">{{ m.year }}</span></span>
+                        <a href="/web/movie?id={{ m.index }}">View Cast &rarr;</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if mode == 'movie_profile' %}
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>{{ movie.title }}</h3>
+                    <span class="badge" style="font-size: 1rem; color: var(--imdb-yellow);">{{ movie.year }}</span>
+                </div>
+                <hr style="border-color:#333; margin: 20px 0;">
+
+                <div class="columns">
+                    <div class="column">
+                        <h4>Full Cast ({{ movie.cast|length }})</h4>
+                        <div class="scroll-box" style="max-height: 500px;">
+                            <ul class="list-group">
+                            {% for actor in movie.cast %}
+                                <li class="list-item">
+                                    <span>{{ actor.name }}</span>
+                                    <!-- Link to jump to that actor's profile -->
+                                    <a href="/web/actor?id={{ actor.index }}" style="font-size: 0.8rem;">Profile &rarr;</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- ============================================= -->
+        <!-- SECTION 3: DISTANCE CALCULATOR -->
+        <!-- ============================================= -->
+        <div class="card">
+            <h2>Degrees of Separation</h2>
+            <form action="/web/distance" method="get">
+                <input type="text" name="actor1" placeholder="Actor 1" value="{{ a1_input if a1_input else '' }}" required>
+                <input type="text" name="actor2" placeholder="Actor 2" value="{{ a2_input if a2_input else '' }}" required>
+                <button type="submit">Calculate</button>
+            </form>
+
+            {% if mode == 'distance_result' %}
+                <h3>Analysis Result</h3>
+                {% if error %}
+                    <p class="error">{{ error }}</p>
+                {% else %}
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">
+                        Distance: <strong style="color:var(--imdb-yellow); font-size: 1.4rem;">{{ distance }}</strong> 
+                        hop(s) between <strong>{{ start_name }}</strong> and <strong>{{ formatted_path[-1].actor_b }}</strong>.
+                    </p>
+                    
+                    <div>
+                        {% for step in formatted_path %}
+                            <div class="path-step">
+                                <strong>{{ step.actor_a }}</strong> 
+                                <span style="color:#777">featured in</span> 
+                                <em>{{ step.movie }}</em> 
+                                <span style="color:#777">alongside</span> 
+                                <strong>{{ step.actor_b }}</strong>.
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <a href="/web" class="nav-link">Reset / Home</a>
+    </div>
+</body>
+</html>
