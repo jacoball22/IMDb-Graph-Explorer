@@ -6,17 +6,16 @@ A full-stack web application that visualizes connections between actors and expl
 
 ---
 
-## ✨ Features
+## Features
 
-*   **🔗 Collaboration Distance Calculator:** Uses a Breadth-First Search (BFS) algorithm to find the shortest path between two actors (e.g., *How is Tom Cruise connected to Kevin Bacon?*).
-*   **🧠 Intelligent Search:** Search results are ranked by popularity (movie count). Searching for "Tom Hardy" prioritizes the famous actor over others with the same name.
-*   **🌑 IMDb Dark Theme:** A responsive, professional user interface designed to match the classic IMDb dark aesthetic.
-*   **🔄 Automated Data Pipeline:** The dataset updates automatically every 24 hours using GitHub Actions.
-*   **📂 Optimized Performance:** Handles millions of records using a compressed SQLite database, allowing it to run on low-memory environments.
+*   ** Collaboration Distance Calculator:** Uses a Breadth-First Search (BFS) algorithm to find the shortest path between two actors (e.g., *How is Tom Cruise connected to Kevin Bacon?*).
+*   ** IMDb Dark Theme:** A responsive, professional user interface designed to match the classic IMDb dark aesthetic.
+*   ** Automated Data Pipeline:** The dataset updates automatically every 24 hours using GitHub Actions.
+*   ** Optimized Performance:** Handles millions of records using a compressed SQLite database, allowing it to run on low-memory environments.
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## Architecture & Tech Stack
 
 ### Backend
 *   **Python & Flask:** Serves the web application and API endpoints.
@@ -37,7 +36,7 @@ A full-stack web application that visualizes connections between actors and expl
 
 ---
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 1.  **Clone the repository**
     ```bash
@@ -67,7 +66,7 @@ A full-stack web application that visualizes connections between actors and expl
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ├── .github/workflows/   # GitHub Actions (Daily Update Script)
@@ -81,7 +80,7 @@ A full-stack web application that visualizes connections between actors and expl
 ```
 ---
 
-## 📊 Data Source
+## Data Source
 
 Data is sourced from IMDb Datasets.
     
@@ -90,3 +89,7 @@ Data is sourced from IMDb Datasets.
     name.basics.tsv.gz
 
 ---
+
+Note: AI tools (Google AI Studio) were used as general guidance during the development of this project.
+
+
