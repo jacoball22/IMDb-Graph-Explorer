@@ -8,10 +8,10 @@ A full-stack web application that visualizes connections between actors and expl
 
 ## Features
 
-*   ** Collaboration Distance Calculator:** Uses a Breadth-First Search (BFS) algorithm to find the shortest path between two actors (e.g., *How is Tom Cruise connected to Kevin Bacon?*).
-*   ** IMDb Dark Theme:** A responsive, professional user interface designed to match the classic IMDb dark aesthetic.
-*   ** Automated Data Pipeline:** The dataset updates automatically every 24 hours using GitHub Actions.
-*   ** Optimized Performance:** Handles millions of records using a compressed SQLite database, allowing it to run on low-memory environments.
+*   **Collaboration Distance Calculator:** Uses a Breadth-First Search (BFS) algorithm to find the shortest path between two actors (e.g., *How is Tom Cruise connected to Kevin Bacon?*).
+*   **IMDb Dark Theme:** A responsive, professional user interface designed to match the classic IMDb dark aesthetic.
+*   **Automated Data Pipeline:** The dataset updates automatically every 24 hours using GitHub Actions.
+*   **Optimized Performance:** Handles millions of records using a compressed SQLite database, allowing it to run on low-memory environments.
 
 ---
 
