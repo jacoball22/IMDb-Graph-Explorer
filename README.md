@@ -90,5 +90,3 @@ Data is sourced from IMDb Datasets.
     name.basics.tsv.gz
 
 ---
-
-Created by [ALAOUCHICHE Abderrahmane Yaakoub]
